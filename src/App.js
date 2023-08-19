@@ -1,31 +1,18 @@
-export default function Square() {
-  return <button className='square'>X</button>
+import './App.css'
+
+export default function Board() {
+  return (
+    <>
+      <div className="board-row">
+        {[1, 2, 3].map(r => <button className='square'>{r}</button>)}
+      </div>
+      <div className="board-row">
+        {[4,5,6].map(r => <button className='square'>{r}</button>)}
+      </div>
+      <div className="board-row">
+        {[7,8,9].map(r => <button className='square'>{r}</button>)}
+      </div>
+    </>
+  )
 }
 
-
-
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
