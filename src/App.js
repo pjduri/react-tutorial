@@ -1,24 +1,24 @@
 import './App.css'
+import { useState } from 'react'
 
-const a = console.log.bind()
+const Square = () => {
+  const [ value, setValue ] = useState(null)
+  const handleClick = () => { setValue('X') }
 
-const Square = ({ val }) => {
-  const handleClick = () => { a('clicked!') }
-
-  return <button className='square' onClick={handleClick}>{val}</button>
+  return <button className='square' onClick={handleClick}>{value}</button>
 }
 
 export default function Board() {
   return (
     <>
       <div className="board-row">
-        {[1, 2, 3].map(r => <Square val={r} />)}
+        {[1, 2, 3].map(r => <Square />)}
       </div>
       <div className="board-row">
-        {[4, 5, 6].map(r => <Square val={r} />)}
+        {[4, 5, 6].map(r => <Square />)}
       </div>
       <div className="board-row">
-        {[7, 8, 9].map(r => <Square val={r} />)}
+        {[7, 8, 9].map(r => <Square />)}
       </div>
     </>
   )
