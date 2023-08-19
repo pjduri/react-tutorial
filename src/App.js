@@ -1,24 +1,28 @@
 import './App.css'
 import { useState } from 'react'
 
-const Square = () => {
-  const [ value, setValue ] = useState(null)
-  const handleClick = () => { setValue('X') }
-
-  return <button className='square' onClick={handleClick}>{value}</button>
+const Square = ({ value, onSquareClick }) => {
+  return <button className='square' onClick={onSquareClick}>{value}</button>
 }
 
 export default function Board() {
+  const [squares, setSquares] = useState(Array(9).fill(null))
+  const handleClick = (i) => {
+    const nextSquares = squares.slice()
+    nextSquares[i] = 'X'
+    setSquares(nextSquares)
+  }
+
   return (
     <>
       <div className="board-row">
-        {[1, 2, 3].map(r => <Square />)}
+        {squares.slice(0, 3).map((s, i) => <Square value={s} onSquareClick={() => handleClick(i)} />)}
       </div>
       <div className="board-row">
-        {[4, 5, 6].map(r => <Square />)}
+        {squares.slice(3, 6).map((s, i) => <Square value={s} onSquareClick={() => handleClick(i+3)} />)}
       </div>
       <div className="board-row">
-        {[7, 8, 9].map(r => <Square />)}
+        {squares.slice(6).map((s, i) => <Square value={s} onSquareClick={() => handleClick(i+6)} />)}
       </div>
     </>
   )
