@@ -8,16 +8,26 @@ const Square = ({ value, onSquareClick }) => {
 export default function Board() {
   const [ xIsNext, setXIsNext ] = useState(true)
   const [ squares, setSquares ] = useState(Array(9).fill(null))
+
+  const winner = calculateWinner(squares)
+  const winHeader = <h1>{winner ? `Winner: ${winner}` : `Next Player: ${xIsNext ? 'X' : 'O'}`}</h1>
+  const tieHeader = <h1>TIE: No more moves.</h1>
+
   const handleClick = (i) => {
+
     if (squares[i] || calculateWinner(squares)) return 
     const nextSquares = squares.slice()
     nextSquares[i] = xIsNext ? 'X' : 'O'
     setSquares(nextSquares)
     setXIsNext(!xIsNext)
+
   }
 
   return (
     <>
+      <header>
+        {squares.includes(null) ? winHeader : tieHeader}
+      </header>
       <div className="board-row">
         {squares.slice(0, 3).map((s, i) => <Square value={s} onSquareClick={() => handleClick(i)} />)}
       </div>
@@ -32,6 +42,7 @@ export default function Board() {
 }
 
 const calculateWinner = (squares) => {
+
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -48,4 +59,5 @@ const calculateWinner = (squares) => {
     }
   }
   return null
+
 }

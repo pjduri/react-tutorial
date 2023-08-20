@@ -2,6 +2,11 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Code comes from the tutorial at https://react.dev/learn/tutorial-tic-tac-toe 
+But I've learned a little React already, so I'm trying slightly different approaches to things 
+than the instructions specify. 
+~pjduri
+
 ## Available Scripts
 
 In the project directory, you can run:
