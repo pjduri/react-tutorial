@@ -51,18 +51,25 @@ export default function Game() {
     setCurrentMove(nextHistory.length - 1)
   }
 
-  function jumpTo(nextMove) {
-    setCurrentMove(nextMove)
-  }
+  const jumpTo = (nextMove) => { setCurrentMove(nextMove) }
 
-  const moves = history.map((squares, move) =>
-    <li key={move}>
-      {move === currentMove ? <p>{move > 0 ? `You are on move # ${move}` : 'This is the beginning'}</p>
-        : <button onClick={() => jumpTo(move)}>
-          {move > 0 ? `Go to move # ${move}` : 'Go to game start'}
-        </button>}
-    </li>
-  )
+  const moves = history.map((squares, move) => {
+
+    const index = squares.findIndex((s, i) => s && !history[move-1][i])
+    const row = move > 0 ? ` at row ${Math.ceil((index+1)/3)},` : ''
+    const column = move > 0 ? ` column ${((index + 1) % 3 === 0 ? 3 : (index + 1) % 3)}` : ''
+    const lastTurn = move < 1 ? 'Start' : move % 2 === 0 ? 'O' : 'X'
+
+    return (
+      <li key={move}>
+        {move === currentMove ? <p>{move > 0 ? `You are on move # ${move}` : 'This is the beginning'}</p>
+          : <button onClick={() => jumpTo(move)}>
+            {move > 0 ? `Go to move # ${move}` : 'Go to game start'}
+          </button>}
+          <p>Last move: {lastTurn}{row}{column}</p>
+      </li>
+    )
+  })
 
   return (
     <div className='game'>
@@ -91,9 +98,7 @@ const calculateWinner = (squares) => {
     [2, 4, 6]
   ]
   for (const [a, b, c] of lines) {
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return [squares[a], [a, b, c]]
-    }
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) return [squares[a], [a, b, c]]
   }
   return null
 }
