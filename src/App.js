@@ -8,6 +8,7 @@ const Board = ({ xIsNext, squares, onPlay }) => {
   const winner = calculateWinner(squares)
   const winHeader = <h1>{winner ? `Winner: ${winner}` : `Next Player: ${xIsNext ? 'X' : 'O'}`}</h1>
   const tieHeader = <h1>TIE: No more moves.</h1>
+  const rows = [squares.slice(0, 3), squares.slice(3, 6), squares.slice(6)]
 
   const handleClick = (i) => {
     if (squares[i] || calculateWinner(squares)) return
@@ -21,25 +22,19 @@ const Board = ({ xIsNext, squares, onPlay }) => {
       <div className='status'>
         {squares.includes(null) ? winHeader : tieHeader}
       </div>
-      <div className="board-row">
-        {squares.slice(0, 3).map((s, i) =>
-          <Square key={i} value={s} onSquareClick={() => handleClick(i)} />)}
-      </div>
-      <div className="board-row">
-        {squares.slice(3, 6).map((s, i) =>
-          <Square key={i} value={s} onSquareClick={() => handleClick(i + 3)} />)}
-      </div>
-      <div className="board-row">
-        {squares.slice(6).map((s, i) =>
-          <Square key={i} value={s} onSquareClick={() => handleClick(i + 6)} />)}
-      </div>
+      {rows.map((r, i) =>
+        <div key={i} className="board-row">
+          {r.map((s, j) =>
+            <Square key={j} value={s} onSquareClick={() => handleClick(j + i*3)} />)}
+        </div>
+      )}
     </>
   )
 }
 
 export default function Game() {
-  const [ history, setHistory ] = useState([Array(9).fill(null)])
-  const [ currentMove, setCurrentMove ] = useState(0)
+  const [history, setHistory] = useState([Array(9).fill(null)])
+  const [currentMove, setCurrentMove] = useState(0)
   const currentSquares = history[currentMove]
   const xIsNext = currentMove % 2 === 0
 
@@ -55,9 +50,10 @@ export default function Game() {
 
   const moves = history.map((squares, move) =>
     <li key={move}>
-      <button onClick={() => jumpTo(move)}>
+      {move === currentMove ? <p>{move > 0 ? `You are on move # ${move}` : 'This is the beginning'}</p>
+       : <button onClick={() => jumpTo(move)}>
         {move > 0 ? `Go to move # ${move}` : 'Go to game start'}
-      </button>
+      </button>}
     </li>
   )
 
@@ -93,3 +89,5 @@ const calculateWinner = (squares) => {
   }
   return null
 }
+
+
